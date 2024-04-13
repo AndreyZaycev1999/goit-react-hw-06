@@ -1,0 +1,16 @@
+.contact_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact_item button {
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.element_contact {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
