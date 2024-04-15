@@ -5,14 +5,20 @@ import SearchBox from "./components/SearchBox/SearchBox";
 import ContactList from "./components/ContactList/ContactList";
 import contactsUsers from "./ContactsUsers.json";
 import "./App.css";
+import { useSelector, useDispatch } from "react-redux";
+import { addContact } from "./redux/contactsSlices";
+import { deleteContact } from "./redux/contactsSlices";
+import { changeFilter } from "./redux/filtersSlices";
 
 function App() {
-  const [contacts, setContacts] = useState(() => {
-    const stringifiedContactUsers = localStorage.getItem("ContactsUsers");
-    if (!stringifiedContactUsers) return contactsUsers.contactsUsers;
+  const dispatch = useDispatch();
 
-    const parsedContactUsers = JSON.parse(stringifiedContactUsers);
-    return parsedContactUsers;
+  const contacts = useSelector((state) => {
+    return state.contact.contacts;
+  });
+
+  const filter = useSelector((state) => {
+    return state.filter.filter;
   });
 
   useEffect(() => {
@@ -24,17 +30,16 @@ function App() {
       ...formData,
       id: nanoid(),
     };
+    const action = addContact(finalContact);
 
-    setContacts((prevState) => [...prevState, finalContact]);
+    dispatch(action);
   };
 
   const onDeleteContact = (contactId) => {
-    setContacts((prevState) =>
-      prevState.filter((contact) => contact.id !== contactId)
-    );
-  };
+    const action = deleteContact(contactId);
 
-  const [filter, setFilter] = useState("");
+    dispatch(action);
+  };
 
   const filteredContacts = contacts.filter(
     (contact) =>
@@ -46,7 +51,7 @@ function App() {
     <div className="App">
       <h1>Phonebook</h1>
       <ContactForm onAddContact={onAddContact} />
-      <SearchBox filter={filter} setFilter={setFilter} />
+      <SearchBox filter={filter} />
       <ContactList
         contactsUsers={filteredContacts}
         onDeleteContact={onDeleteContact}

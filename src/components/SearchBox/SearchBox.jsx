@@ -1,10 +1,15 @@
 import { Field, Form, Formik } from "formik";
 import { INITIAL_VALUE_FORM_SEARCH_BOX } from "../../utils/constants";
+import { useDispatch } from "react-redux";
+import { changeFilter } from "../../redux/filtersSlices";
 import css from "./SearchBox.module.css";
 
-const SearchBox = ({ filter, setFilter }) => {
+const SearchBox = ({ filter }) => {
+  const dispatch = useDispatch();
   const onChangeFilter = (event) => {
-    setFilter(event.target.value);
+    const action = changeFilter(event.target.value);
+
+    dispatch(action);
   };
 
   return (
