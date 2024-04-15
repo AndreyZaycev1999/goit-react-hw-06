@@ -14,11 +14,11 @@ function App() {
   const dispatch = useDispatch();
 
   const contacts = useSelector((state) => {
-    return state.contact.contacts;
+    return state.contacts.items;
   });
 
   const filter = useSelector((state) => {
-    return state.filter.filter;
+    return state.filters.name;
   });
 
   useEffect(() => {
